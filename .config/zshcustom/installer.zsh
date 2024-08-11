@@ -12,8 +12,6 @@ if [[ ! -f $ZED_BINARY ]]; then
     else
         print -P "%F{160} The installation has failed.%f%b"
     fi
-else
-    print -P "%F{33} %F{34}ZED is already installed.%f%b"
 fi
 
 ###################### Installing starship #######################
@@ -31,7 +29,5 @@ if [[ ! -f $STARSHIP_BINARY ]]; then
     else
         print -P "%F{160} The installation has failed.%f%b"
     fi
-else
-    print -P "%F{33} %F{34}Starship is already installed.%f%b"
 fi
 ##################################################################
