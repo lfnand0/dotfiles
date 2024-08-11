@@ -1,0 +1,128 @@
+alias ponto="cd ~/Documents/SYDLE/pontos"
+alias postman="~/Postman/Postman"
+alias sydle="zed ~/Documents/SYDLE"
+alias front="cd ~/Documents/SYDLE/---------FRONT---------"
+
+# diretórios
+alias pldir="cd $HOME/Documents/SYDLE/---------FRONT---------/petlife-portal"
+alias dldir="cd $HOME/Documents/SYDLE/---------FRONT---------/doglife-portal"
+alias lfdir="cd $HOME/Documents/SYDLE/---------FRONT---------/life-components-sydle-ui"
+alias sydir="cd $HOME/Documents/SYDLE"
+
+# nx commands
+alias nxdev="npx nx run blog:dev"
+alias nxbuild="npx nx run blog:build"
+alias nxzip="npx nx run blog:zip"
+
+# builda a petlife localmente
+function petlife() {
+    dir="~/Documents/SYDLE/---------FRONT---------/petlife-portal"
+    ver="20"
+
+    start_front $dir $ver
+}
+
+# builda a doglife localmente
+function doglife() {
+    dir="~/Documents/SYDLE/---------FRONT---------/doglife-portal"
+    ver="14"
+
+    url_loc="localhost:4200"
+    url $url_loc
+
+    start_front $dir $ver
+}
+
+# função auxiliar para startar o front
+function start_front() {
+    if [ $# -eq 2 ]; then
+
+        DIR=$(eval echo "$1")
+
+        cd "$DIR" || {
+            echo "Directory $DIR not found."
+            return 1
+        }
+        git pull
+        nvm use "$2"
+        npm install
+        npm audit fix
+        npm start
+    else
+        echo "Argumento inválido. Uso: start_front <diretório> <versão>"
+    fi
+}
+
+# gera arquivo de build pra petlife
+function build-pl() {
+    local_dir=$(eval echo "~/Documents/SYDLE/---------FRONT---------/petlife-portal")
+    build_folder="www"
+    build_dir="${local_dir}/${build_folder}"
+    build_file="build.zip"
+    npm_ver="--lts"
+
+    echo "========BUILDING PETLIFE========"
+    cd $local_dir
+    git pull
+    nvm use $npm_ver
+    setopt localoptions rmstarsilent
+    rm -rf $build_dir
+    npm run build
+    cd $build_dir
+    zip -r $build_file *
+    cd ..
+    safe_rm_except $build_dir $build_file
+}
+
+# gera arquivo de build pra doglife
+function build-dl() {
+    local_dir=$(eval echo "~/Documents/SYDLE/---------FRONT---------/doglife-portal")
+    build_folder="dist"
+    build_dir="${local_dir}/${build_folder}"
+    build_file="build.zip"
+    npm_ver="14"
+
+    echo "========BUILDING DOGLIFE HOM========"
+    cd $local_dir
+    git pull
+    nvm use $npm_ver
+    setopt localoptions rmstarsilent
+    rm -rf $build_dir
+    npm run build:hom
+    cd $build_dir
+    zip -r $build_file *
+    cd ..
+    safe_rm_except $build_dir $build_file
+}
+
+# inicia a VPN
+function vpn() {
+    echo "Chaves expiradas. Favor pegar novas com o Thiagol"
+    # cd ~/Documents/SYDLE
+    # sudo openvpn --config profile-292.ovpn --auth-user-pass --auth-retry interact
+}
+
+# calcula horas trabalhadas
+function calc() {
+    cd ~/Documents/SYDLE/pontos
+    python_args=("$@")                      # Collect all arguments passed to the function
+    if [ "${#python_args[@]}" -gt 0 ]; then # Check if any arguments are provided
+        python3 calc.py "${python_args[@]}" # Pass all arguments to calc.py
+    else
+        python3 calc.py # If no arguments provided, call calc.py without any arguments
+    fi
+}
+
+# bate ponto
+function lch() {
+    cd ~/Documents/SYDLE/pontos
+    python_args=("$@")                        # Collect all arguments passed to the function
+    if [ "${#python_args[@]}" -gt 0 ]; then   # Check if any arguments are provided
+        python3 launch.py "${python_args[@]}" # Pass all arguments to launch.py
+    else
+        python3 launch.py # If no arguments provided, call launch.py without any arguments
+    fi
+}
+
+# usuario de debug
+alias zum="echo 62268121763; echo 42158593000169"

@@ -1,0 +1,141 @@
+alias tcc="cd ~/Documents/tcc"
+alias c="clear"
+
+alias upd="update"
+function update() {
+    # Pre-authenticate sudo and handle interruptions
+    sudo -v || { echo "Failed to authenticate."; return 1; }
+
+    # Trap interrupt signals to handle Ctrl+C
+    trap 'echo "Interrupted. Exiting..."; exit 1' INT
+
+    # Now proceed with the update process
+    echo "~ Updating packages..."
+    sudo apt-get -qq update
+    sudo apt-get -qq upgrade -y
+    sudo apt-get -qq dist-upgrade -y
+    sudo apt-get -qq autoremove
+    sudo apt-get -qq autoclean
+
+    echo "~ Updating snaps..."
+    sudo snap refresh
+
+    echo "~ All done :)"
+}
+
+function inst() {
+    if [[ $# -eq 0 ]]; then
+        echo "Informe ao menos um pacote para ser instalado."
+        return 0
+    fi
+
+    sudo apt install $*
+}
+
+
+# Abre um link no firefox
+function url() {
+    if [ $# -eq 0 ]; then
+        echo "Argumento inválido. Uso: url <url> o url -s <query>"
+    elif [ "$1" = "-s" ]; then
+        if [ $# -eq 2 ]; then
+            firefox --search "$2"
+        else
+            echo "Argumento inválido. Uso: url -s <query>"
+        fi
+    else
+        if [[ "$1" =~ ^https?:// || "$1" =~ ^localhost: ]]; then
+            firefox --new-tab "$1"
+        else
+            firefox --new-tab "https://$1"
+        fi
+    fi
+}
+
+function safe_rm_except() {
+    local dir=$(eval echo "$1")
+    local filename=$2
+
+    if [[ ! -d $dir ]]; then
+        echo "Error: $dir is not a valid directory"
+        return 1
+    fi
+
+    if [[ -z $filename ]]; then
+        echo "Error: No filename provided"
+        return 1
+    fi
+
+    # Collect all items to delete, except the specified filename
+    local items_to_delete=($(find "$dir" -mindepth 1 -not -name "$filename"))
+
+    # Remove each item individually
+    for item in "${items_to_delete[@]}"; do
+        rm -rf "$item"
+    done
+}
+
+# Iniciar server do actual budget
+function actual() {
+    cd ~/Documents/actual-server
+    git pull
+    nvm use --lts
+    yarn install
+    yarn start
+}
+
+function flushdns() {
+    sudo resolvectl flush-caches
+    echo "Flushed."
+    sudo resolvectl statistics
+}
+
+function mac() {
+    local interface="wlp2s0"
+
+    if [[ $# -eq 0 ]]; then
+        echo "Usage: mac -n to generate a new MAC address, mac -r to revert to the original MAC address"
+        return 0
+    fi
+
+    case $1 in
+    -n)
+        echo "Stopping network manager..."
+        sudo nmcli device set $interface managed no
+        sudo ip link set $interface down
+        echo "Generating new MAC Address..."
+        sudo macchanger -r $interface
+        sudo ip link set $interface up
+        sudo nmcli device set $interface managed yes
+        echo "Done."
+        ;;
+    -r)
+        echo "Stopping network manager..."
+        sudo nmcli device set $interface managed no
+        sudo ip link set $interface down
+        echo "Reverting MAC Address..."
+        sudo macchanger -p $interface
+        sudo ip link set $interface up
+        sudo nmcli device set $interface managed yes
+        echo "Done."
+        ;;
+    *)
+        echo "Invalid flag. Use -n to generate a new MAC address or -r to revert to the original MAC address."
+        return 1
+        ;;
+    esac
+}
+
+# magic dots for cd .. alias
+# wonderful coding going on here
+alias ..='cd ..'
+alias ...='cd ../..'
+alias ....='cd ../../..'
+alias .....='cd ../../../..'
+alias ......='cd ../../../../..'
+alias .......='cd ../../../../../..'
+alias ........='cd ../../../../../../..'
+alias .........='cd ../../../../../../../..'
+alias ..........='cd ../../../../../../../../..'
+alias ...........='cd ../../../../../../../../../..'
+alias ............='cd ../../../../../../../../../../..'

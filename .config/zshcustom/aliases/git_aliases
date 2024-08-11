@@ -1,0 +1,47 @@
+# git
+alias gstash="git stash"
+alias gpmsg="gpm"
+alias uncommit="git reset HEAD~1 --soft"
+
+function gcmds() {
+    url "https://github.com/ohmyzsh/ohmyzsh/blob/master/plugins/git/README.md"
+}
+
+function gpm() {
+    USER_INPUT="$1" # Armazena o primeiro argumento (mensagem) em USER_INPUT
+
+    # Exibe o prompt separadamente do comando read
+    echo -n "Do you want to commit and push \"$USER_INPUT\"? [y/n]: "
+
+    # Lê a entrada do usuário
+    read REPLY
+
+    case $REPLY in
+    [Yy] | [Yy][Ee][Ss]) # Sim
+        gaa
+        gcmsg "$USER_INPUT"
+        gp
+        ;;
+    [Nn] | [Nn][Oo]) # Não
+        echo "Commit and push aborted."
+        ;;
+    *) # Resp inválida
+        echo "Commit and push aborted."
+        ;;
+    esac
+}
+
+function fixfork() {
+    git fetch upstream
+    git checkout master
+    git merge upstream/master
+    gst
+}
+
+function cleandir() {
+    setopt localoptions rmstarsilent
+    rm -rf node_modules www dist package-lock.json
+    nvm use 18
+    npm i
+    npm ddp
+}

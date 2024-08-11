@@ -1,0 +1,51 @@
+// Zed keymap
+//
+// For information on binding keys, see the Zed
+// documentation: https://zed.dev/docs/key-bindings
+//
+// To see the default key bindings run `zed: Open Default Keymap`
+// from the command palette.
+[
+  {
+    "context": "Workspace",
+    "bindings": {
+      "ctrl-e": "command_palette::Toggle",
+      "ctrl-~": null,
+      "ctrl-shift-t": "pane::ReopenClosedItem",
+      "ctrl-k ctrl-m": "language_selector::Toggle"
+    }
+  },
+  {
+    "context": "Editor",
+    "bindings": {
+      "ctrl-t": "workspace::ToggleBottomDock",
+      "ctrl-t ctrl-k": "project_symbols::Toggle",
+      "ctrl-shift-pageup": "editor::Fold",
+      "ctrl-shift-pagedown": "editor::UnfoldLines",
+      "ctrl-shift-t": "pane::ReopenClosedItem",
+      "alt-left": "editor::MoveToBeginningOfLine",
+      "alt-right": "editor::MoveToEndOfLine"
+    }
+  },
+  {
+    "context": "Terminal",
+    "bindings": {
+      "ctrl-t": "workspace::ToggleBottomDock",
+      "ctrl-t ctrl-k": "project_symbols::Toggle",
+      "ctrl-shift-t": "workspace::NewTerminal"
+    }
+  },
+  {
+    "context": "BufferSearchBar",
+    "bindings": {
+      "ctrl-f": "search::ToggleReplace"
+    }
+  },
+  {
+    "context": "Editor && (showing_code_actions || showing_completions)",
+    "bindings": {
+      "ctrl-p": "file_finder::Toggle",
+      "ctrl-n": null
+    }
+  }
+]
