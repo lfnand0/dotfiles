@@ -3,6 +3,25 @@ export PATH="$PATH:$HOME/.cargo/env:$HOME/anaconda3/bin:/usr/bin/dotnet:/var/tmp
 export ZSHRC="$HOME/.zshrc"
 export EDITOR="zed"
 
+
+################### Automatically installing zed ###################
+ZED_BINARY="$HOME/.local/bin/zed"
+INSTALL_URL="https://zed.dev/install.sh"
+
+# Check if the zed binary exists
+if [[ ! -f $ZED_BINARY ]]; then
+    print -P "%F{33} %F{220}Installing %F{33}ZED%F{220} text editor…%f"
+
+    # Download and execute the installation script
+    if command curl -fsSL "$INSTALL_URL" | sh; then
+        print -P "%F{33} %F{34}Installation successful.%f%b"
+    else
+        print -P "%F{160} The installation has failed.%f%b"
+    fi
+else
+    print -P "%F{33} %F{34}ZED is already installed.%f%b"
+fi
+
 ################### Added by Zinit's installer ###################
 if [[ ! -f $HOME/.local/share/zinit/zinit.git/zinit.zsh ]]; then
     print -P "%F{33} %F{220}Installing %F{33}ZDHARMA-CONTINUUM%F{220} Initiative Plugin Manager (%F{33}zdharma-continuum/zinit%F{220})…%f"
