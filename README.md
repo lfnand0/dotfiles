@@ -11,3 +11,6 @@
 - neofetch
 - starship (should be downloaded automatically after opening the terminal)
 - zed (should be downloaded automatically after opening the terminal)
+
+## Auto-installer
+- Run `bash init.sh` to install all the prerequisites and set up the dotfiles

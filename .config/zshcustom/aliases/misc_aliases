@@ -29,7 +29,7 @@ function inst() {
         return 0
     fi
 
-    sudo apt install $*
+    sudo apt install -y $*
 }
 
 
