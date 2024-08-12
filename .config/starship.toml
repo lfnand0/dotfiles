@@ -4,6 +4,7 @@
 format = """
 $directory\
 $fill\
+$git_state\
 $git_status\
 $git_branch\
 $git_commit\
@@ -29,8 +30,32 @@ symbol = ' '
 truncation_length = 6
 truncation_symbol = '…/'
 
+# [git_branch]
+# format = '[$symbol$branch(:$remote_branch)]($style)'
+
 [git_branch]
-format = '[$symbol$branch(:$remote_branch)]($style)'
+format = " [$branch(:$remote_branch)]($style)"
+symbol = "[△](bold italic bright-blue)"
+style = "bright-blue"
+truncation_symbol = "⋯"
+truncation_length = 11
+ignore_branches = ["main", "master"]
+only_attached = true
 
 [cmd_duration]
-format = ' 󰥔 [$duration]($style) '
+format = '[$duration]($style) '
+
+[git_status]
+format = "[[(*$conflicted$untracked$modified$staged$renamed$deleted)](218) ($ahead_behind$stashed)]($style)"
+style = "cyan"
+conflicted = "​"
+untracked = "​"
+modified = "​"
+staged = "​"
+renamed = "​"
+deleted = "​"
+stashed = "≡"
+
+[git_state]
+format = '\([$state( $progress_current/$progress_total)]($style)\) '
+style = "bright-black"
