@@ -1,5 +1,5 @@
 {
-	"$schema": "vscode://schemas/color-theme",
+  "name": "dexTheme",
 	"type": "dark",
 	"colors": {
 		"activityBar.background": "#000000",

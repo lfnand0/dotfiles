@@ -3,13 +3,11 @@ alias c="clear"
 
 alias upd="update"
 function update() {
-    # Pre-authenticate sudo and handle interruptions
     sudo -v || { echo "Failed to authenticate."; return 1; }
 
     # Trap interrupt signals to handle Ctrl+C
-    trap 'echo "Interrupted. Exiting..."; exit 1' INT
+    trap 'echo "Interrupted. Exiting..."; break' INT
 
-    # Now proceed with the update process
     echo "~ Updating packages..."
     sudo apt-get -qq update
     sudo apt-get -qq upgrade -y
@@ -21,6 +19,9 @@ function update() {
     sudo snap refresh
 
     echo "~ All done :)"
+
+    # Reset trap
+    trap - INT
 }
 
 function inst() {
