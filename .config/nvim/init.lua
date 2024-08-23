@@ -866,3 +866,6 @@ require('lazy').setup({
 
 require 'custom.keymaps'
 require 'custom.commands'
+
+-- Quebra a linha em palavras inteiras ao invés de quebrar caracteres
+vim.opt.linebreak = true

@@ -2,6 +2,7 @@ alias ponto="cd ~/Documents/SYDLE/pontos"
 alias postman="~/Postman/Postman"
 alias sydle="zed ~/Documents/SYDLE"
 alias front="cd ~/Documents/SYDLE/---------FRONT---------"
+alias todo="nvim ~/Documents/SYDLE/TODO.md"
 
 # diretórios
 alias pldir="cd $HOME/Documents/SYDLE/---------FRONT---------/petlife-portal"
