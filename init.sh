@@ -5,13 +5,13 @@ packages=(zsh git stow zoxide neofetch)
 if [ -x "$(command -v apk)" ]; then
     sudo apk add --no-cache "${packages[@]}"
 elif [ -x "$(command -v apt)" ]; then
-    sudo apt-get install "${packages[@]}"
+    sudo apt-get install -y "${packages[@]}"
 elif [ -x "$(command -v dnf)" ]; then
-    sudo dnf install "${packages[@]}"
+    sudo dnf install -y "${packages[@]}"
 elif [ -x "$(command -v zypper)" ]; then
-    sudo zypper install "${packages[@]}"
+    sudo zypper install -y "${packages[@]}"
 elif [ -x "$(command -v pacman)" ]; then
-    pacman -S "${packages[@]}"
+    pacman -S --noconfirm "${packages[@]}"
 else
     echo "FAILED TO INSTALL PACKAGES: Package manager not found. You must manually install: ${packages[*]}" >&2
 fi
