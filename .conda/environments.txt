@@ -1,0 +1,2 @@
+/home/dex/anaconda3
+/home/dex/anaconda3/envs/medsam

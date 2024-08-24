@@ -1,5 +1,6 @@
 alias tcc="cd ~/Documents/tcc"
 alias c="clear"
+alias fk="fuck"
 
 alias upd="update"
 function update() {
