@@ -1,7 +1,7 @@
 #!/bin/bash
 
-################## Installing Dependencies #######################
-packages=(zsh fzf git stow zoxide neofetch)
+##################### Installing Dependencies ####################
+packages=(zsh git stow zoxide neofetch)
 if [ -x "$(command -v apk)" ]; then
     sudo apk add --no-cache "${packages[@]}"
 elif [ -x "$(command -v apt)" ]; then
@@ -16,7 +16,12 @@ else
     echo "FAILED TO INSTALL PACKAGES: Package manager not found. You must manually install: ${packages[*]}" >&2
 fi
 
-####################### Changing Shell to zsh ####################
+######################### Installing fzf #########################
+echo "Installing fzf…"
+git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
+~/.fzf/install
+
+###################### Changing Shell to zsh #####################
 if [ -x "$(command -v zsh)" ]; then
     echo "Changing the default shell to zsh..."
     chsh -s "$(which zsh)"
@@ -26,14 +31,14 @@ else
 fi
 
 ######################### Installing zed #########################
-ZED_INSTALLL="https://zed.dev/install.sh"
+ZED_INSTALL="https://zed.dev/install.sh"
 
 # Check if the zed binary exists
 if ! command which zed &>/dev/null; then
     echo -e "\e[33m\e[220mInstalling \e[33mzed\e[220m editor…\e[0m"
 
     # Download and execute the installation script
-    if command curl -fsSL "$ZED_INSTALLL" | sh; then
+    if command curl -fsSL "$ZED_INSTALL" | sh; then
         echo -e "\e[33m\e[34mInstallation successful.\e[0m"
     else
         echo -e "\e[160mThe installation has failed.\e[0m"
@@ -42,7 +47,7 @@ else
     echo -e "\e[33m\e[34mZed is already installed.\e[0m"
 fi
 
-###################### Installing starship #######################
+####################### Installing starship ######################
 STARSHIP_INSTALL="https://starship.rs/install.sh"
 
 # Check if the starship binary exists
@@ -68,4 +73,3 @@ else
 fi
 
 ##################################################################
-
